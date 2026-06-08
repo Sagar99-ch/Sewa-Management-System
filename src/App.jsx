@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AddSewadar from "./pages/AddSewadar";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import Sewadar from "./pages/sewadar";
+import Sewadar from "./pages/Sewadar";
+
 import GatePass from "./pages/GatePass";
 import LostAndFound from "./pages/LostAndFound";
 import SewadarDetails from "./pages/SewadarDetails";
