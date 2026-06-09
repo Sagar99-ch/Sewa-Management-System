@@ -19,22 +19,25 @@ export const SewaProvider = ({ children }) => {
     const formatted = data.map((item) => ({
       id: item.id,
 
-      name: item.name,
+      serialNo: item.serial_no,
+      date: item.gatepass_date,
+
+      from: item.from_location,
+      to: item.to_location,
+
+      badgeNo: item.badge_no,
+      sanctionLetter: item.sanction_letter,
+
+      sewadar: item.sewadar_name,
       mobile: item.mobile,
-      address: item.father_name,
+      vehicle: item.vehicle_no,
 
-      department: item.department,
-      sewaType: item.seva_type,
+      reason: item.purpose,
 
-      badgeNo: item.badge_no || "",
-      sewaDay: item.sewa_day || "",
-      sewaTime: item.sewa_time || "",
+      items: item.items || [],
 
-      photo: item.photo || "",
-
-      totalAttendance: item.total_attendance || 0,
-      monthlyAttendance: item.monthly_attendance || 0,
-      attendanceHistory: item.attendance_history || [],
+      createdBy: item.created_by,
+      status: item.status,
     }));
     setSewadars(formatted);
   };
@@ -86,6 +89,9 @@ export const SewaProvider = ({ children }) => {
 
       createdBy: item.created_by,
       status: item.status,
+
+      badgeNo: item.badge_no,
+      sanctionLetter: item.sanction_letter,
     }));
 
     setGatePasses(formatted);

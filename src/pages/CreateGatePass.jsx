@@ -103,8 +103,13 @@ export default function CreateGatePass() {
     const { error } = await supabase.from("gatepasses").insert([
       {
         serial_no: formData.serialNo,
+        gatepass_date: formData.date,
+
         from_location: formData.from,
         to_location: formData.to,
+
+        badge_no: formData.badgeNo,
+        sanction_letter: formData.sanctionLetter,
 
         sewadar_name: formData.sewadar,
         mobile: formData.mobile,
@@ -112,12 +117,10 @@ export default function CreateGatePass() {
 
         purpose: formData.reason,
 
-        gatepass_date: formData.date,
-        status: "Approved",
-
         items: formData.items,
 
         created_by: formData.createdBy,
+        status: "Approved",
       },
     ]);
 
