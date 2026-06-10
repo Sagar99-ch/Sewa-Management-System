@@ -321,7 +321,7 @@ export default function GatePass() {
                   className="bg-slate-800 p-3 rounded-xl w-full"
                 />
               </div>
-
+              {/* 
               <div>
                 <label className="block text-yellow-300 mb-2">
                   Vehicle Number
@@ -329,7 +329,7 @@ export default function GatePass() {
                 <div className="bg-slate-800 p-3 rounded-xl">
                   {selectedGatePass.vehicle}
                 </div>
-              </div>
+              </div> */}
               <div>
                 <label className="block text-yellow-300 mb-2">
                   Serial Number
