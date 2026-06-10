@@ -257,6 +257,19 @@ export default function GatePass() {
 
             <div className="grid md:grid-cols-2 gap-6">
               <div>
+                <label className="block text-yellow-300 mb-2">From</label>
+                <div className="bg-slate-800 p-3 rounded-xl">
+                  {selectedGatePass.from}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-yellow-300 mb-2">To</label>
+                <div className="bg-slate-800 p-3 rounded-xl">
+                  {selectedGatePass.to}
+                </div>
+              </div>
+              <div>
                 <label className="block text-yellow-300 mb-2">
                   Sewadar Name
                 </label>
@@ -321,35 +334,13 @@ export default function GatePass() {
                   className="bg-slate-800 p-3 rounded-xl w-full"
                 />
               </div>
-              {/* 
-              <div>
-                <label className="block text-yellow-300 mb-2">
-                  Vehicle Number
-                </label>
-                <div className="bg-slate-800 p-3 rounded-xl">
-                  {selectedGatePass.vehicle}
-                </div>
-              </div> */}
+
               <div>
                 <label className="block text-yellow-300 mb-2">
                   Serial Number
                 </label>
                 <div className="bg-slate-800 p-3 rounded-xl">
                   {selectedGatePass.serialNo}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-yellow-300 mb-2">From</label>
-                <div className="bg-slate-800 p-3 rounded-xl">
-                  {selectedGatePass.from}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-yellow-300 mb-2">To</label>
-                <div className="bg-slate-800 p-3 rounded-xl">
-                  {selectedGatePass.to}
                 </div>
               </div>
 
@@ -375,13 +366,13 @@ export default function GatePass() {
                   {selectedGatePass.date}
                 </div>
               </div>
-
+              {/* 
               <div>
                 <label className="block text-yellow-300 mb-2">Status</label>
                 <div className="bg-slate-800 p-3 rounded-xl">
                   {selectedGatePass.status}
                 </div>
-              </div>
+              </div> */}
             </div>
             <br />
             <br />
