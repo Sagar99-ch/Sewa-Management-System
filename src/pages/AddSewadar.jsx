@@ -17,16 +17,11 @@ export default function AddSewadar() {
   const { addSewadar } = useSewa();
   const [formData, setFormData] = useState({
     name: "",
+    fatherName: "",
     mobile: "",
-    address: "",
-    department: "Security",
-    photo: "",
-    sewaType: "Day Sewa",
-    sewaDay: "Monday",
+    department: "",
+    sewaDay: "",
     sewaTime: "",
-    monthlyAttendance: 0,
-    totalAttendance: 0,
-    lastResetMonth: new Date().getMonth(),
   });
 
   const handleCall = () => {
@@ -40,39 +35,31 @@ export default function AddSewadar() {
       alert("Please enter Name and Mobile Number");
       return;
     }
+
     const { error } = await supabase.from("sewadars").insert([
       {
         name: formData.name,
-        father_name: formData.address,
+        father_name: formData.fatherName,
         mobile: formData.mobile,
         department: formData.department,
-        seva_type: formData.sewaType,
 
-        total_attendance: 0,
-        monthly_attendance: 0,
-        attendance_history: [],
+        seva_type: "Daily Sewa",
 
-        badge_no: formData.badgeNo || "",
+        daily_attendance: 0,
+        night_attendance: 0,
+
         sewa_day: formData.sewaDay,
         sewa_time: formData.sewaTime,
-        photo: formData.photo || "",
       },
     ]);
+
     if (error) {
       console.log(error);
       alert("Failed to Save Sewadar");
       return;
     }
 
-    addSewadar({
-      name: formData.name,
-      mobile: formData.mobile,
-      department: formData.department,
-      sewaType: formData.sewaType,
-      address: formData.address,
-      totalAttendance: 0,
-      attendanceHistory: [],
-    });
+    await addSewadar();
 
     alert("Sewadar Added Successfully");
 
@@ -178,59 +165,7 @@ export default function AddSewadar() {
             </select>
           </div>
 
-          {/* Photo */}
-          <div>
-            <label className="flex items-center gap-2 text-gray-300 mb-2">
-              <Camera size={18} />
-              Upload Photo
-            </label>
-
-            <input
-              type="file"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  photo: e.target.files?.[0]?.name || "",
-                })
-              }
-              className="w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3"
-            />
-          </div>
-
           {/* Sewa Type */}
-          <div>
-            <label className="text-gray-300 mb-3 block">Sewa Type</label>
-
-            <div className="flex gap-6">
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  checked={formData.sewaType === "Day Sewa"}
-                  onChange={() =>
-                    setFormData({
-                      ...formData,
-                      sewaType: "Day Sewa",
-                    })
-                  }
-                />
-                Day Sewa
-              </label>
-
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  checked={formData.sewaType === "Night Sewa"}
-                  onChange={() =>
-                    setFormData({
-                      ...formData,
-                      sewaType: "Night Sewa",
-                    })
-                  }
-                />
-                Night Sewa
-              </label>
-            </div>
-          </div>
 
           {/* Day */}
           <div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSewa } from "../context/SewaContext";
 import DashboardCards from "../components/home/DashboardCards";
+import { supabase } from "../lib/supabase";
 
 import {
   Shield,
@@ -18,17 +19,57 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("");
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  const { sewadars, gatePasses, lostFound } = useSewa();
+  const { sewadars, gatePasses, lostFound, updateSewadar } = useSewa();
   const sewadarData = sewadars;
-
+  const markNightAttendance = async (id) => {
+    const sewadar = sewadars.find((s) => s.id === id);
+  
+    if (!sewadar) return;
+  
+    const today = new Date().toLocaleDateString();
+  
+    const alreadyMarked = (
+      sewadar.nightAttendanceHistory || []
+    ).some((record) => record.date === today);
+  
+    if (alreadyMarked) {
+      alert("Night attendance already marked today");
+      return;
+    }
+  
+    const nightRecord = {
+      date: today,
+      time: new Date().toLocaleTimeString(),
+    };
+  
+    const { error } = await supabase
+      .from("sewadars")
+      .update({
+        night_attendance:
+          (sewadar.nightAttendance || 0) + 1,
+  
+        night_attendance_history: [
+          ...(sewadar.nightAttendanceHistory || []),
+          nightRecord,
+        ],
+      })
+      .eq("id", id);
+  
+    if (error) {
+      console.log(error);
+      alert(error.message);
+      return;
+    }
+  
+    alert("Night Attendance Marked");
+  
+    window.location.reload();
+  };
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
   });
 
-  const nightSewa = sewadars.filter(
-    (item) => item.sewaType === "Night Sewa" && item.sewaDay === today
-  );
-
+  const nightSewa = sewadars.filter((item) => item.sewaDay === today);
   const handleCall = (mobile) => {
     window.location.href = `tel:${mobile}`;
   };
@@ -87,9 +128,14 @@ export default function Home() {
 
                   <p className="text-gray-400 mt-2">{item.mobile}</p>
                 </div>
-
-                {/* Right Buttons */}
                 <div className="flex gap-3">
+                  <button
+                    onClick={() => markNightAttendance(item.id)}
+                    className="bg-indigo-600 px-3 py-2 rounded-lg"
+                  >
+                    Night Present
+                  </button>
+                  {/* Right Buttons */}
                   {/* Call */}
                   <button
                     onClick={() => handleCall(item.mobile)}
@@ -215,7 +261,7 @@ export default function Home() {
 
                 <input
                   type="text"
-                  value={selectedRecord.sewa}
+                  value={selectedRecord.sewaType}
                   readOnly={!editMode}
                   className="w-full mt-2 bg-slate-800 border border-white/10 rounded-xl px-4 py-3"
                 />

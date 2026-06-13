@@ -18,26 +18,21 @@ export const SewaProvider = ({ children }) => {
     }
     const formatted = data.map((item) => ({
       id: item.id,
-
-      serialNo: item.serial_no,
-      date: item.gatepass_date,
-
-      from: item.from_location,
-      to: item.to_location,
-
-      badgeNo: item.badge_no,
-      sanctionLetter: item.sanction_letter,
-
-      sewadar: item.sewadar_name,
+      name: item.name,
       mobile: item.mobile,
-      vehicle: item.vehicle_no,
+      department: item.department,
 
-      reason: item.purpose,
+      sewaType: item.seva_type,
 
-      items: item.items || [],
+      dailyAttendance: item.daily_attendance || 0,
+      nightAttendance: item.night_attendance || 0,
 
-      createdBy: item.created_by,
-      status: item.status,
+      totalAttendance: item.total_attendance || 0,
+      monthlyAttendance: item.monthly_attendance || 0,
+      attendanceHistory: item.attendance_history || [],
+      nightAttendanceHistory: item.night_attendance_history || [],
+      sewaDay: item.sewa_day,
+      sewaTime: item.sewa_time,
     }));
     setSewadars(formatted);
   };
@@ -110,17 +105,18 @@ export const SewaProvider = ({ children }) => {
 
     const formatted = data.map((item) => ({
       id: item.id,
-
-      item: item.item_name,
-      person: item.person_name,
+      name: item.name,
+      fatherName: item.father_name,
       mobile: item.mobile,
-      location: item.location,
-      description: item.description,
+      department: item.department,
+      sewaType: item.seva_type,
 
-      type: item.category,
-      date: item.date,
+      sewaDay: item.sewa_day,
+      sewaTime: item.sewa_time,
 
-      status: item.status,
+      totalAttendance: item.total_attendance || 0,
+      monthlyAttendance: item.monthly_attendance || 0,
+      attendanceHistory: item.attendance_history || [],
     }));
 
     setLostFound(formatted);
