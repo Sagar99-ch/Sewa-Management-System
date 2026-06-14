@@ -3,14 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSewa } from "../context/SewaContext";
 import { supabase } from "../lib/supabase";
 
-import {
-  User,
-  Phone,
-  MapPin,
-  Camera,
-  Building2,
-  PhoneCall,
-} from "lucide-react";
+import { User, Phone, MapPin, Building2, PhoneCall } from "lucide-react";
 
 export default function AddSewadar() {
   const navigate = useNavigate();
@@ -39,7 +32,7 @@ export default function AddSewadar() {
     const { error } = await supabase.from("sewadars").insert([
       {
         name: formData.name,
-        father_name: formData.fatherName,
+
         mobile: formData.mobile,
         department: formData.department,
 
