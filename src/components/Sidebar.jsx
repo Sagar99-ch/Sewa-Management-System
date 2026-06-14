@@ -71,7 +71,10 @@ export default function Sidebar() {
             onClick={() => setDepartmentOpen(!departmentOpen)}
             className={`${menuClass()} justify-between`}
           >
-            <div className="flex items-center gap-3">
+            <div
+              className="flex items-center gap-3"
+              // onClick={() => navigate("/department")}
+            >
               <Users size={20} />
               {open && <span>Department</span>}
             </div>
@@ -116,7 +119,10 @@ export default function Sidebar() {
             onClick={() => setGatePassOpen(!gatePassOpen)}
             className={`${menuClass()} justify-between`}
           >
-            <div className="flex items-center gap-3">
+            <div
+              className="flex items-center gap-3"
+              onClick={() => navigate("/create-gatepass")}
+            >
               <FileText size={20} />
               {open && <span>GatePass</span>}
             </div>
@@ -150,7 +156,7 @@ export default function Sidebar() {
 
         {/* Sewa Samiti */}
         <div
-          onClick={() => navigate("/samiti")}
+          // onClick={() => navigate("/samiti")}
           className={`${menuClass()} mt-3`}
         >
           <Users size={20} />
@@ -164,7 +170,10 @@ export default function Sidebar() {
             onClick={() => setSewadarOpen(!sewadarOpen)}
             className={`${menuClass()} justify-between`}
           >
-            <div className="flex items-center gap-3">
+            <div
+              className="flex items-center gap-3"
+              onClick={() => navigate("/add-sewadar")}
+            >
               <Users size={20} />
               {open && <span>Sewadar</span>}
             </div>
