@@ -302,6 +302,24 @@ export default function GatePass() {
               </div>
 
               <div>
+                <label className="block text-yellow-300 mb-2 font-semibold">
+                  To
+                </label>
+
+                <input
+                  type="text"
+                  value={selectedGatePass.to || ""}
+                  onChange={(e) =>
+                    setSelectedGatePass({
+                      ...selectedGatePass,
+                      to: e.target.value,
+                    })
+                  }
+                  className="w-full bg-indigo-900/40 border border-indigo-700 rounded-xl px-4 py-3 text-white"
+                />
+              </div>
+
+              <div>
                 <label className="block text-yellow-300 mb-2">
                   Mobile Number
                 </label>
