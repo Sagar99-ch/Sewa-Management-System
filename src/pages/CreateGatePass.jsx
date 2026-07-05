@@ -21,15 +21,15 @@ export default function CreateGatePass() {
   const { addGatePass } = useSewa();
   const [formData, setFormData] = useState({
     serialNo: "",
-    date: "",
+    date: new Date().toISOString().split("T")[0],
     sanctionLetter: "",
-    from: "",
+    from: "Ujjain",
     to: "",
     badgeNo: "",
 
     items: [
       {
-        item: "",
+        name: "",
         quantity: "",
       },
     ],
@@ -37,7 +37,7 @@ export default function CreateGatePass() {
     sewadar: "",
     mobile: "",
     vehicle: "",
-    createdBy: "",
+    createdBy: "Mainsi Bhadoriya",
     reason: "",
   });
   const handleChange = (e) => {
@@ -64,7 +64,7 @@ export default function CreateGatePass() {
       items: [
         ...formData.items,
         {
-          item: "",
+          name: "",
           quantity: "",
         },
       ],
@@ -295,7 +295,12 @@ export default function CreateGatePass() {
               type="text"
               name="vehicle"
               value={formData.vehicle}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  vehicle: e.target.value.toUpperCase(),
+                })
+              }
               placeholder="Enter vehicle number"
               className="w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3"
             />
@@ -332,9 +337,9 @@ export default function CreateGatePass() {
               <input
                 type="text"
                 placeholder={`Item ${index + 1}`}
-                value={item.item}
+                value={item.name}
                 onChange={(e) =>
-                  handleItemChange(index, "item", e.target.value)
+                  handleItemChange(index, "name", e.target.value)
                 }
                 className="bg-slate-900 border border-white/10 rounded-xl px-4 py-3"
               />

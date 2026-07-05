@@ -21,48 +21,47 @@ export default function Home() {
   const [editMode, setEditMode] = useState(false);
   const { sewadars, gatePasses, lostFound, updateSewadar } = useSewa();
   const sewadarData = sewadars;
+
   const markNightAttendance = async (id) => {
     const sewadar = sewadars.find((s) => s.id === id);
-  
     if (!sewadar) return;
-  
+
     const today = new Date().toLocaleDateString();
-  
-    const alreadyMarked = (
-      sewadar.nightAttendanceHistory || []
-    ).some((record) => record.date === today);
-  
+
+    const alreadyMarked = (sewadar.nightAttendanceHistory || []).some(
+      (record) => record.date === today
+    );
+
     if (alreadyMarked) {
       alert("Night attendance already marked today");
       return;
     }
-  
+
     const nightRecord = {
       date: today,
       time: new Date().toLocaleTimeString(),
     };
-  
+
     const { error } = await supabase
       .from("sewadars")
       .update({
-        night_attendance:
-          (sewadar.nightAttendance || 0) + 1,
-  
+        night_attendance: (sewadar.nightAttendance || 0) + 1,
+
         night_attendance_history: [
           ...(sewadar.nightAttendanceHistory || []),
           nightRecord,
         ],
       })
       .eq("id", id);
-  
+
     if (error) {
       console.log(error);
       alert(error.message);
       return;
     }
-  
+
     alert("Night Attendance Marked");
-  
+
     window.location.reload();
   };
   const today = new Date().toLocaleDateString("en-US", {

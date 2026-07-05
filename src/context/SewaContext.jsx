@@ -16,17 +16,15 @@ export const SewaProvider = ({ children }) => {
       console.log(error);
       return;
     }
+
     const formatted = data.map((item) => ({
       id: item.id,
       name: item.name,
       mobile: item.mobile,
       department: item.department,
-
       sewaType: item.seva_type,
-
       dailyAttendance: item.daily_attendance || 0,
       nightAttendance: item.night_attendance || 0,
-
       totalAttendance: item.total_attendance || 0,
       monthlyAttendance: item.monthly_attendance || 0,
       attendanceHistory: item.attendance_history || [],
@@ -41,6 +39,7 @@ export const SewaProvider = ({ children }) => {
     fetchGatePasses();
     fetchLostFound();
   }, []);
+
   // Sewadar
   const [sewadars, setSewadars] = useState([]);
 
@@ -54,6 +53,7 @@ export const SewaProvider = ({ children }) => {
   const addSewadar = async () => {
     await fetchSewadars();
   };
+
   const fetchGatePasses = async () => {
     const { data, error } = await supabase
       .from("gatepasses")
@@ -130,13 +130,13 @@ export const SewaProvider = ({ children }) => {
       alert("Failed to delete sewadar");
       return;
     }
-
     await fetchSewadars();
   };
 
   const updateSewadar = async () => {
     await fetchSewadars();
   };
+
   // GatePass CRUD
   const addGatePass = async () => {
     await fetchGatePasses();
@@ -156,6 +156,7 @@ export const SewaProvider = ({ children }) => {
   const updateGatePass = async () => {
     await fetchGatePasses();
   };
+  
   // Lost Found CRUD
   const addLostFound = async () => {
     await fetchLostFound();

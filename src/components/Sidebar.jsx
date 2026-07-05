@@ -23,9 +23,7 @@ export default function Sidebar() {
   const [gatePassOpen, setGatePassOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [lostOpen, setLostOpen] = useState(false);
-
   const [departmentOpen, setDepartmentOpen] = useState(false);
-
   const [sewadarOpen, setSewadarOpen] = useState(false);
 
   const menuClass = () => {
@@ -112,6 +110,7 @@ export default function Sidebar() {
             </div>
           )}
         </div>
+        
         {/* GatePass Dropdown */}
         <div className="mt-3">
           {/* Main */}

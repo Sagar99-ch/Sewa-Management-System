@@ -9,13 +9,28 @@ export default function GatePass() {
   const [search, setSearch] = useState("");
   const [selectedGatePass, setSelectedGatePass] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [selectedYear, setSelectedYear] = useState("All");
 
   const gatePassData = gatePasses;
-  const filteredGatePasses = gatePassData.filter((item) =>
-    `${item.serialNo || ""} ${item.from || ""} ${item.to || ""}`
+  const years = [
+    "All",
+    ...new Set(
+      gatePassData
+        .map((item) =>
+          item.date ? new Date(item.date).getFullYear().toString() : null
+        )
+        .filter(Boolean)
+    ),
+  ];
+  const filteredGatePasses = gatePassData.filter((item) => {
+    const searchMatch = `${item.serialNo || ""} ${item.from || ""} ${
+      item.to || ""
+    }`
       .toLowerCase()
-      .includes(search.toLowerCase())
-  );
+      .includes(search.toLowerCase());
+    const year = item.date && new Date(item.date).getFullYear().toString();
+    return searchMatch && (selectedYear === "All" || year === selectedYear);
+  });
 
   // Call Function
   const handleCall = (mobile) => {
@@ -50,6 +65,8 @@ export default function GatePass() {
     const { error } = await supabase
       .from("gatepasses")
       .update({
+        from_location: selectedGatePass.from,
+        to_location: selectedGatePass.to,
         sewadar_name: selectedGatePass.sewadar,
         mobile: selectedGatePass.mobile,
         vehicle_no: selectedGatePass.vehicle,
@@ -88,7 +105,7 @@ export default function GatePass() {
       CreatedBy: item.createdBy,
 
       Items:
-        item.items?.map((i) => `${i.item} (${i.quantity})`).join(", ") || "",
+        item.items?.map((i) => `${i.name} (${i.quantity})`).join(", ") || "",
 
       Reason: item.reason,
       Status: item.status,
@@ -158,13 +175,24 @@ export default function GatePass() {
           </button>
         </div>
         <div className="p-5 border-b border-white/10">
-          <input
-            type="text"
-            placeholder="Search by Serial No / From / To"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3"
-          />
+          <div className="flex gap-4">
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              className="bg-slate-900 border border-white/10 rounded-xl px-4 py-3"
+            >
+              {years.map((year) => (
+                <option key={year}>{year}</option>
+              ))}
+            </select>
+            <input
+              type="text"
+              placeholder="Search by Serial No / From / To"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 bg-slate-900 border border-white/10 rounded-xl px-4 py-3"
+            />
+          </div>
         </div>
         {/* Table */}
         <div className="overflow-x-auto">
@@ -258,28 +286,15 @@ export default function GatePass() {
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-yellow-300 mb-2">From</label>
-                <div className="bg-slate-800 p-3 rounded-xl">
-                  {selectedGatePass.from}
-                </div>
-              </div>
 
-              <div>
-                <label className="block text-yellow-300 mb-2">To</label>
-                <div className="bg-slate-800 p-3 rounded-xl">
-                  {selectedGatePass.to}
-                </div>
-              </div>
-              <div>
-                <label className="block text-yellow-300 mb-2">
-                  Sewadar Name
-                </label>
                 <input
-                  value={selectedGatePass.sewadar || ""}
+                  type="text"
+                  value={selectedGatePass.from || ""}
                   readOnly={!editMode}
                   onChange={(e) =>
                     setSelectedGatePass({
                       ...selectedGatePass,
-                      sewadar: e.target.value,
+                      from: e.target.value,
                     })
                   }
                   className="bg-slate-800 p-3 rounded-xl w-full"
@@ -404,59 +419,62 @@ export default function GatePass() {
                       )}
                     </tr>
                   </thead>
-
                   <tbody>
-                    {selectedGatePass.items?.map((item, index) => (
-                      <tr key={index} className="border-t border-slate-700">
+                    {(selectedGatePass.items || []).map((item, index) => (
+                      <tr key={index}>
                         <td className="px-4 py-3">{index + 1}</td>
 
                         <td className="px-4 py-3">
-                          {editMode ? (
-                            <input
-                              value={item.item}
-                              onChange={(e) => {
-                                const updatedItems = [
-                                  ...selectedGatePass.items,
-                                ];
-                                updatedItems[index].item = e.target.value;
+                          <input
+                            type="text"
+                            value={item.name}
+                            readOnly={!editMode}
+                            onChange={(e) => {
+                              const updatedItems = [...selectedGatePass.items];
+                              updatedItems[index].name = e.target.value;
 
-                                setSelectedGatePass({
-                                  ...selectedGatePass,
-                                  items: updatedItems,
-                                });
-                              }}
-                              className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1 w-full"
-                            />
-                          ) : (
-                            item.item
-                          )}
+                              setSelectedGatePass({
+                                ...selectedGatePass,
+                                items: updatedItems,
+                              });
+                            }}
+                            className="w-full bg-slate-800 rounded-lg px-3 py-2"
+                          />
                         </td>
-                        <td className="px-4 py-3 text-center">
-                          {editMode ? (
-                            <input
-                              value={item.quantity}
-                              onChange={(e) => {
-                                const updatedItems = [
-                                  ...selectedGatePass.items,
-                                ];
-                                updatedItems[index].quantity = e.target.value;
 
-                                setSelectedGatePass({
-                                  ...selectedGatePass,
-                                  items: updatedItems,
-                                });
-                              }}
-                              className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1 w-20 text-center"
-                            />
-                          ) : (
-                            item.quantity
-                          )}
+                        <td className="px-4 py-3">
+                          <input
+                            type="text"
+                            value={item.quantity}
+                            readOnly={!editMode}
+                            onChange={(e) => {
+                              const updatedItems = [...selectedGatePass.items];
+                              updatedItems[index].quantity = e.target.value;
+
+                              setSelectedGatePass({
+                                ...selectedGatePass,
+                                items: updatedItems,
+                              });
+                            }}
+                            className="w-full bg-slate-800 rounded-lg px-3 py-2"
+                          />
                         </td>
+
                         {editMode && (
-                          <td className="px-4 py-3 text-center">
+                          <td>
                             <button
-                              onClick={() => removeItem(index)}
-                              className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg"
+                              onClick={() => {
+                                const updatedItems =
+                                  selectedGatePass.items.filter(
+                                    (_, i) => i !== index
+                                  );
+
+                                setSelectedGatePass({
+                                  ...selectedGatePass,
+                                  items: updatedItems,
+                                });
+                              }}
+                              className="bg-red-600 px-3 py-2 rounded-lg"
                             >
                               Delete
                             </button>
@@ -487,7 +505,7 @@ export default function GatePass() {
               items: [
                 ...selectedGatePass.items,
                 {
-                  item: "",
+                  name: "",
                   quantity: "",
                 },
               ],

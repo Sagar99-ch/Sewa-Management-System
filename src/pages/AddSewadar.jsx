@@ -58,6 +58,7 @@ export default function AddSewadar() {
 
     navigate("/sewadar");
   };
+
   return (
     <div className="min-h-screen text-white p-6">
       {/* Header */}
