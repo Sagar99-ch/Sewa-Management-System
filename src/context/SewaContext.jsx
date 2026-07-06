@@ -79,9 +79,10 @@ export const SewaProvider = ({ children }) => {
       vehicle: item.vehicle_no,
 
       reason: item.purpose,
-
-      items: item.items || [],
-
+      items: (item.items || []).map((i) => ({
+        name: i.name || i.item || i.itemName || "",
+        quantity: i.quantity || "",
+      })),
       createdBy: item.created_by,
       status: item.status,
 
@@ -156,7 +157,7 @@ export const SewaProvider = ({ children }) => {
   const updateGatePass = async () => {
     await fetchGatePasses();
   };
-  
+
   // Lost Found CRUD
   const addLostFound = async () => {
     await fetchLostFound();

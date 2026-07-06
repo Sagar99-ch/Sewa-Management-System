@@ -104,11 +104,9 @@ export default function GatePass() {
       Vehicle: item.vehicle,
       CreatedBy: item.createdBy,
 
-      Items:
-        item.items?.map((i) => `${i.name} (${i.quantity})`).join(", ") || "",
-
-      Reason: item.reason,
-      Status: item.status,
+      Items: item.items
+        ?.map((i) => `${i.name || i.item || i.itemName} (${i.quantity})`)
+        .join(", "),
     }));
 
     exportToExcel(formattedData, "GatePass_Records", "GatePass");
@@ -445,7 +443,9 @@ export default function GatePass() {
                         <td className="px-4 py-3">
                           <input
                             type="text"
-                            value={item.name}
+                            value={
+                              item.name || item.item || item.itemName || ""
+                            }
                             readOnly={!editMode}
                             onChange={(e) => {
                               const updatedItems = [...selectedGatePass.items];
