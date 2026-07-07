@@ -319,6 +319,25 @@ export default function GatePass() {
 
               <div>
                 <label className="block text-yellow-300 mb-2">
+                  Sewadar Name
+                </label>
+
+                <input
+                  type="text"
+                  value={selectedGatePass.sewadar || ""}
+                  readOnly={!editMode}
+                  onChange={(e) =>
+                    setSelectedGatePass({
+                      ...selectedGatePass,
+                      sewadar: e.target.value,
+                    })
+                  }
+                  className="bg-slate-800 p-3 rounded-xl w-full"
+                />
+              </div>
+
+              <div>
+                <label className="block text-yellow-300 mb-2">
                   Mobile Number
                 </label>
                 <input

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 import { Users, Moon, Building2, Package, Search } from "lucide-react";
 
 const DashboardCards = ({
@@ -10,10 +10,11 @@ const DashboardCards = ({
   gatePasses,
   lostFound,
 }) => {
+  const navigate = useNavigate();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
       <div
-        onClick={() => setActiveSection("sewadar")}
+        onClick={() => navigate("/Sewadar")}
         className={`cursor-pointer rounded-3xl p-6 shadow-xl transition-all duration-300 ${
           activeSection === "sewadar"
             ? "bg-indigo-700 scale-105"
@@ -61,7 +62,7 @@ const DashboardCards = ({
       </div>
 
       <div
-        onClick={() => setActiveSection("gatepass")}
+        onClick={() => navigate("/gatepass")}
         className={`cursor-pointer rounded-3xl p-6 shadow-xl transition-all duration-300 ${
           activeSection === "gatepass"
             ? "bg-indigo-700 scale-105"
