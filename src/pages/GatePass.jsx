@@ -424,9 +424,22 @@ export default function GatePass() {
                 Purpose / Reason
               </label>
 
-              <div className="bg-slate-800 p-3 rounded-xl min-h-[100px]">
-                {selectedGatePass.reason}
-              </div>
+              <textarea
+                value={selectedGatePass.reason || ""}
+                readOnly={!editMode}
+                onChange={(e) =>
+                  setSelectedGatePass({
+                    ...selectedGatePass,
+                    reason: e.target.value,
+                  })
+                }
+                rows={4}
+                className={`w-full rounded-xl p-3 min-h-[120px] resize-none ${
+                  editMode
+                    ? "bg-indigo-900/40 border border-indigo-700 text-white"
+                    : "bg-slate-800 text-white"
+                }`}
+              />
             </div>
             <br />
             <div className="md:col-span-2">
