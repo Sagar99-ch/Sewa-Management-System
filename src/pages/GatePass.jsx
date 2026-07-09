@@ -416,13 +416,6 @@ export default function GatePass() {
                   {selectedGatePass.date}
                 </div>
               </div>
-              {/* 
-              <div>
-                <label className="block text-yellow-300 mb-2">Status</label>
-                <div className="bg-slate-800 p-3 rounded-xl">
-                  {selectedGatePass.status}
-                </div>
-              </div> */}
             </div>
             <br />
             <br />
@@ -524,6 +517,28 @@ export default function GatePass() {
               </div>
             </div>
             {editMode && (
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={() =>
+                    setSelectedGatePass({
+                      ...selectedGatePass,
+                      items: [
+                        ...(selectedGatePass.items || []),
+                        {
+                          name: "",
+                          quantity: "",
+                        },
+                      ],
+                    })
+                  }
+                  className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-xl font-semibold transition"
+                >
+                  + Add Item
+                </button>
+              </div>
+            )}
+
+            {editMode && (
               <button
                 onClick={handleSave}
                 className="mt-6 bg-yellow-500 hover:bg-yellow-600 px-6 py-3 rounded-xl font-semibold"
@@ -533,25 +548,6 @@ export default function GatePass() {
             )}
           </div>
         </div>
-      )}
-      {editMode && (
-        <button
-          onClick={() =>
-            setSelectedGatePass({
-              ...selectedGatePass,
-              items: [
-                ...selectedGatePass.items,
-                {
-                  name: "",
-                  quantity: "",
-                },
-              ],
-            })
-          }
-          className="mt-4 bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-xl"
-        >
-          + Add Item
-        </button>
       )}
     </div>
   );
